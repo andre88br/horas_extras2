@@ -1,0 +1,69 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+{% include 'partials/menu2.html' %}
+<div class="escolhe-mes">
+
+<div id="conteudo">
+
+<h1>consulta empregados {% if files.0.importacao.mes < 10 %}0{% endif %}{{ files.0.importacao.mes }}/{{ files.0.importacao.ano }}</h1>
+    {% include 'partials/_voltar.html' %}
+
+            {% include 'partials/_messages.html' %}
+
+        <form class="busca" method="get" action="{% url 'listaempregados' files2 %}">
+            <input type="text" name="q" placeholder="Buscar empregado">
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i>Buscar</button>
+        </form>
+
+<div class="pagination">
+
+
+            {% if files.has_previous %}
+                <button class="prev"><a href="?page={{ files.previous_page_number }}"><i class="fa-solid fa-backward-fast"></i> Anterior</a></button>
+            {% endif %}
+
+            {% for page in paginator.get_page_range %}
+                {% if files.number == page %}
+                    <strong>{{ page }}</strong>
+                {% else %}
+                    <span class="current-page"><a href="?page={{ page }}">{{ page }}</a></span>
+                {% endif %}
+            {% endfor %}
+
+            {% if files.has_next %}
+                <button class="next" ><a href="?page={{ files.next_page_number }}">Próximo <i class="fa-solid fa-forward-fast"></i></a></button>
+            {% endif %}
+
+</div>
+    <br>
+
+
+
+
+        <table>
+            <tr class="tr_th">
+                <th class="th-matricula">Matrícula</th>
+                <th class="th-nome">Nome</th>
+                <th class="th-cargo">Cargo</th>
+            </tr>
+        {% if files %}
+            {% for file in files %}
+            <form action="{% url 'confirma_deletar' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <tr class="par">
+                        <td class="td-matricula">{{ file.matricula }}</td>
+                        <td class="td-nome">{{ file.nome }}</td>
+                        <td class="td-cargo">{{ file.cargo }}</td>
+                    </tr>
+                <input name="file_id" value="{{ file.id }}" hidden>
+                <input name="files2" value="{{ files2 }}" hidden>
+                <input name="pagina" value="empregado" hidden>
+            </form>
+                {% endfor %}
+        {% endif %}
+        </table>
+
+</div>
+</div>
+{% endblock %}
