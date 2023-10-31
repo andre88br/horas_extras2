@@ -10,7 +10,6 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from numpy import nan
 
-from planilhas.forms import *
 from relatorios.models import RelatorioPagas, RelatorioSolicitacao
 from .forms import YearForm
 from .models import AnoSelecionado
