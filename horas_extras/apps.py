@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class HorasExtrasConfig(AppConfig):
+class TransacoesConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "horas_extras"
